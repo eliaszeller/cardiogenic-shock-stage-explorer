@@ -10,8 +10,8 @@ body{margin:0;background:radial-gradient(circle at 75% 5%,#12353c 0,transparent 
 main{max-width:1380px;margin:auto;padding:60px 24px 80px}
 .intro{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:80px;align-items:end;margin-bottom:42px}
 .intro-visual{display:flex;justify-content:flex-end;align-items:flex-end}
-.heart-frame{position:relative;margin:0;width:min(100%,350px)}
-.heart-frame img{display:block;width:100%;aspect-ratio:1.12;object-fit:cover;filter:saturate(.85) contrast(1.04);-webkit-mask-image:radial-gradient(ellipse 82% 80% at center,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 82% 80% at center,#000 55%,transparent 100%)}
+.heart-frame{position:relative;margin:0;width:min(100%,310px)}
+.heart-frame img{display:block;width:100%;height:auto;filter:saturate(.85) contrast(1.04)}
 .eyebrow,.section-kicker{font-size:11px;letter-spacing:.19em;color:var(--cyan);font-weight:800;margin:0 0 14px}
 .intro h1{font-size:clamp(38px,5vw,67px);line-height:1.01;letter-spacing:-.055em;max-width:880px;margin:0}
 .lede{color:#aec0c4;font-size:17px;line-height:1.65;max-width:760px;margin:24px 0 0}
@@ -82,7 +82,7 @@ footer{border-top:1px solid var(--line);max-width:1380px;margin:auto;padding:25p
 .stage-key li{min-width:100px}
 }
 @media(max-width:680px){main{padding:36px 14px 60px}
-.intro-visual{justify-content:center}.heart-frame{width:min(86vw,310px)}
+.intro-visual{justify-content:center}.heart-frame{width:min(78vw,270px)}
 .topbar{padding:0 15px}
 .model-badge{display:none}
 .intro h1{font-size:40px}
