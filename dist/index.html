@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Synthetic cardiogenic shock stage model explorer">
+  <title>Shock Stage Explorer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">CS</span><span>Shock Stage Explorer</span></a>
+    <span class="model-badge"><i></i> Linear baseline v1</span>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div>
+        <p class="eyebrow">CARDIOGENIC SHOCK · ADULT ASSESSMENT</p>
+        <h1>Turn bedside observations into a simulated stage estimate.</h1>
+        <p class="lede">Enter one assessment snapshot. The model returns an ordinal SCAI-like stage from A to E using the literature-constrained synthetic baseline.</p>
+      </div>
+      <div class="notice"><strong>Research prototype</strong><span>Not validated for diagnosis, triage, or treatment. Do not enter identifiable patient information.</span></div>
+    </section>
+
+    <section class="workspace">
+      <form id="assessment-form" class="form-panel">
+        <div class="panel-heading">
+          <div><p class="section-kicker">01 · INPUTS</p><h2>Clinical assessment</h2></div>
+          <div class="preset-wrap"><label for="preset">Example profile</label><select id="preset"><option value="C">Stage C-like</option><option value="A">Stage A-like</option><option value="B">Stage B-like</option><option value="D">Stage D-like</option><option value="E">Stage E-like</option></select></div>
+        </div>
+
+        <fieldset><legend>Hemodynamics</legend><div class="grid inputs-grid">
+          <label>MAP <span>mmHg</span><input name="map_mmhg" type="number" step="0.1" min="20" max="160" required></label>
+          <label>Cardiac index <span>L/min/m²</span><input name="ci_l_min_m2" type="number" step="0.01" min="0.3" max="6" required></label>
+          <label>Cardiac output <span>L/min</span><input name="co_l_min" type="number" step="0.01" min="0.5" max="15" required></label>
+          <label>PAD <span>mmHg</span><input name="pad_mmhg" type="number" step="0.1" min="0" max="60" required></label>
+          <label>CVP <span>mmHg</span><input name="cvp_mmhg" type="number" step="0.1" min="0" max="40" required></label>
+          <label>Body surface area <span>m²</span><input name="bsa_m2" type="number" step="0.001" min="1" max="3.5" required></label>
+        </div></fieldset>
+
+        <fieldset><legend>Laboratory & output</legend><div class="grid inputs-grid">
+          <label>Lactate <span>mmol/L</span><input name="lactate_mmol_l" type="number" step="0.01" min="0" max="30" required></label>
+          <label>SvO₂ <span>%</span><input name="svo2_pct" type="number" step="0.1" min="10" max="95" required></label>
+          <label>BNP <span>pg/mL</span><input name="bnp_pg_ml" type="number" step="1" min="0" max="30000" required></label>
+          <label>Urine output <span>mL/hr</span><input name="urine_output_ml_hr" type="number" step="0.1" min="0" max="500" required></label>
+          <label>Urine output <span>mL/kg/hr</span><input name="urine_output_ml_kg_hr" type="number" step="0.001" min="0" max="5" required></label>
+          <label>Weight <span>kg</span><input name="weight_kg" type="number" step="0.1" min="30" max="300" required></label>
+        </div></fieldset>
+
+        <fieldset><legend>Peripheral perfusion</legend><div class="grid inputs-grid">
+          <label>Left radial pulse<select name="pulse_left_radial"></select></label>
+          <label>Right radial pulse<select name="pulse_right_radial"></select></label>
+          <label>Left dorsalis pedis<select name="pulse_left_dorsalis_pedis"></select></label>
+          <label>Right dorsalis pedis<select name="pulse_right_dorsalis_pedis"></select></label>
+          <label>Capillary refill <span>seconds</span><input name="capillary_refill_sec" type="number" step="0.1" min="0" max="15" required></label>
+          <label>Peripheral color<select name="peripheral_color"></select></label>
+          <label>Peripheral temperature<select name="peripheral_temperature"></select></label>
+        </div></fieldset>
+
+        <fieldset><legend>Neurological assessment</legend><div class="grid inputs-grid">
+          <label class="wide">Assessment<select name="neurological_assessment"></select></label>
+          <label>GCS eye <span>1–4</span><input name="gcs_eye" type="number" step="1" min="1" max="4" required></label>
+          <label>GCS verbal <span>1–5</span><input name="gcs_verbal" type="number" step="1" min="1" max="5" required></label>
+          <label>GCS motor <span>1–6</span><input name="gcs_motor" type="number" step="1" min="1" max="6" required></label>
+          <label>GCS total <span>3–15</span><input name="gcs_total" type="number" step="1" min="3" max="15" required></label>
+        </div></fieldset>
+
+        <div class="actions"><button type="submit">Estimate stage <span>→</span></button><button type="button" class="ghost" id="reset">Reset</button></div>
+      </form>
+
+      <aside class="result-panel" aria-live="polite">
+        <p class="section-kicker">02 · MODEL OUTPUT</p>
+        <div class="stage-orbit" id="stage-orbit"><div><span>STAGE</span><strong id="stage-letter">C</strong></div></div>
+        <h2 id="stage-name">Classic shock pattern</h2>
+        <p id="stage-description">Hypoperfusion pattern in the synthetic training data.</p>
+        <div class="score-row"><span>Raw ordinal score</span><strong id="score">2.00</strong></div>
+        <div class="stage-track" aria-label="Stage scale"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><i id="track-marker"></i></div>
+        <div class="signals"><h3>Input signals</h3><div id="signal-list"></div></div>
+        <div class="model-note"><strong>How to read this</strong><p>The linear model encodes A–E as 0–4 and rounds the score to the nearest stage. It does not see treatment response, medication escalation, pH, or cardiac arrest—variables needed to clinically distinguish advanced stages.</p></div>
+      </aside>
+    </section>
+
+    <section class="stage-key"><div><p class="section-kicker">STAGE REFERENCE</p><h2>SCAI continuum</h2></div><ol><li><b>A</b><span>At risk</span></li><li><b>B</b><span>Beginning</span></li><li><b>C</b><span>Classic</span></li><li><b>D</b><span>Deteriorating</span></li><li><b>E</b><span>Extremis</span></li></ol></section>
+  </main>
+  <footer><span>Synthetic model explorer · no data leaves your browser</span><span>Built for research workflow development</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>
