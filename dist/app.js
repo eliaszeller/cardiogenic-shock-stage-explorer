@@ -12,9 +12,25 @@ function pretty(v){return v.replaceAll('_',' ').replace('2plus','2+').replace('d
 fetch('model.json').then(r=>r.json()).then(m=>{model=m;setupSelects();loadPreset('C');predict();}).catch(()=>{document.querySelector('#stage-description').textContent='Model file could not be loaded.'});
 function setupSelects(){for(const key of model.categorical_features){const el=form.elements[key];el.innerHTML=model.categorical_levels[key].map(v=>`<option value="${v}">${pretty(v)}</option>`).join('')}}
 function loadPreset(stage){const p=presets[stage];for(const [k,v] of Object.entries(p)){if(k==='pulse'){for(const n of ['pulse_left_radial','pulse_right_radial','pulse_left_dorsalis_pedis','pulse_right_dorsalis_pedis'])form.elements[n].value=v}else if(form.elements[k])form.elements[k].value=v}}
+function vary(value,fraction,digits=1){const varied=value*(1+(Math.random()*2-1)*fraction);return Number(varied.toFixed(digits))}
+function generateTestPatient(){
+  const stage='ABCDE'[Math.floor(Math.random()*5)],base={...presets[stage]};
+  const patient={...base,weight_kg:vary(base.weight_kg,.18,1),bsa_m2:vary(base.bsa_m2,.09,3)};
+  for(const key of ['map_mmhg','pad_mmhg','cvp_mmhg','svo2_pct','capillary_refill_sec'])patient[key]=vary(base[key],.12,1);
+  patient.ci_l_min_m2=vary(base.ci_l_min_m2,.12,2);
+  patient.co_l_min=Number((patient.ci_l_min_m2*patient.bsa_m2).toFixed(2));
+  patient.lactate_mmol_l=vary(base.lactate_mmol_l,.18,2);
+  patient.bnp_pg_ml=Math.round(vary(base.bnp_pg_ml,.35,0));
+  patient.urine_output_ml_kg_hr=Math.max(0,vary(base.urine_output_ml_kg_hr,.25,3));
+  patient.urine_output_ml_hr=Number((patient.urine_output_ml_kg_hr*patient.weight_kg).toFixed(1));
+  for(const [k,v] of Object.entries(patient)){if(k==='pulse'){for(const n of ['pulse_left_radial','pulse_right_radial','pulse_left_dorsalis_pedis','pulse_right_dorsalis_pedis'])form.elements[n].value=v}else if(form.elements[k])form.elements[k].value=v}
+  document.querySelector('#preset').value='random';
+  predict();
+}
 function getValues(){const v={};for(const k of model.numeric_features)v[k]=Number(form.elements[k].value);for(const k of model.categorical_features)v[k]=form.elements[k].value;return v}
 function score(v){let x=[];for(const k of model.numeric_features)x.push((v[k]-model.numeric_means[k])/(model.numeric_scales[k]||1));for(const k of model.categorical_features)for(const level of model.categorical_levels[k].slice(1))x.push(v[k]===level?1:0);return model.intercept+x.reduce((s,val,i)=>s+val*model.coefficients[i],0)}
 function predict(){if(!model||!form.reportValidity())return;const v=getValues();const raw=score(v);const idx=Math.max(0,Math.min(4,Math.round(raw)));const stage='ABCDE'[idx],meta=stages[stage];document.documentElement.style.setProperty('--stage',meta.color);document.querySelector('#stage-letter').textContent=stage;document.querySelector('#stage-name').textContent=meta.name;document.querySelector('#stage-description').textContent=meta.desc;document.querySelector('#score').textContent=raw.toFixed(2);document.querySelector('#track-marker').style.left=`${Math.max(0,Math.min(100,raw/4*100))}%`;const signals=[['MAP',`${v.map_mmhg} mmHg`],['Cardiac index',`${v.ci_l_min_m2} L/min/m²`],['Lactate',`${v.lactate_mmol_l} mmol/L`],['SvO₂',`${v.svo2_pct}%`],['Urine output',`${v.urine_output_ml_kg_hr} mL/kg/hr`],['Neurology',pretty(v.neurological_assessment)]];document.querySelector('#signal-list').innerHTML=signals.map(([a,b])=>`<div class="signal"><em>${a}</em><b>${b}</b></div>`).join('')}
 form.addEventListener('submit',e=>{e.preventDefault();predict();document.querySelector('.result-panel').scrollIntoView({behavior:'smooth',block:'start'})});
 document.querySelector('#preset').addEventListener('change',e=>{loadPreset(e.target.value);predict()});
+document.querySelector('#random-patient').addEventListener('click',generateTestPatient);
 document.querySelector('#reset').addEventListener('click',()=>{document.querySelector('#preset').value='C';loadPreset('C');predict()});
