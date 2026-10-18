@@ -8,25 +8,39 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">CS</span><span>Shock Stage Explorer</span></a>
-    <span class="model-badge"><i></i> Reduced linear model v2</span>
-  </header>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">CS</span><span>Shock Stage<br><small>Explorer</small></span></a>
+      <nav aria-label="Dashboard sections">
+        <p>CLINICAL TOOL</p>
+        <a class="active" href="#assessment"><span>⌁</span>Assessment</a>
+        <a href="#output"><span>◎</span>Model output</a>
+        <a href="#continuum"><span>▤</span>SCAI continuum</a>
+        <p>MODEL</p>
+        <a href="#method"><span>◇</span>How it works</a>
+        <a href="#privacy"><span>◉</span>Privacy</a>
+      </nav>
+      <div class="sidebar-heart"><img src="heart-anatomy-transparent.png" alt="Anatomical illustration of a human heart"><span>Cardiogenic shock<br>research workflow</span></div>
+    </aside>
 
-  <main>
-    <section class="intro">
-      <div>
-        <p class="eyebrow">CARDIOGENIC SHOCK · ADULT ASSESSMENT</p>
-        <h1>Turn bedside observations into a simulated stage estimate.</h1>
-        <p class="lede">Enter six high-impact values from one assessment snapshot. The reduced model returns an ordinal SCAI-like stage from A to E.</p>
-      </div>
-      <div class="intro-visual">
-        <figure class="heart-frame"><img src="heart-anatomy-transparent.png" alt="Anatomical illustration of a human heart"></figure>
-      </div>
-    </section>
+    <div class="app-content">
+      <header class="topbar">
+        <div class="crumb"><span>Dashboard</span><b>/</b> Adult assessment</div>
+        <span class="model-badge"><i></i> Reduced linear model v2</span>
+      </header>
 
-    <section class="workspace">
-      <form id="assessment-form" class="form-panel">
+      <main>
+        <section class="intro">
+          <div>
+            <p class="eyebrow">CARDIOGENIC SHOCK · DECISION SUPPORT</p>
+            <h1>Shock Stage Explorer</h1>
+            <p class="lede">Translate six bedside observations into a simulated SCAI-like stage estimate.</p>
+          </div>
+          <div class="intro-status"><span>MODEL STATUS</span><b>Ready</b><small>Synthetic research model</small></div>
+        </section>
+
+        <section class="workspace" id="assessment">
+          <form id="assessment-form" class="form-panel">
         <div class="panel-heading">
           <div class="heading-left"><button type="button" class="random-patient" id="random-patient"><span aria-hidden="true">✦</span>Generate test patient</button><div><p class="section-kicker">01 · INPUTS</p><h2>Clinical assessment</h2></div></div>
           <div class="preset-wrap"><label for="preset">Example profile</label><select id="preset"><option value="C">Stage C-like</option><option value="A">Stage A-like</option><option value="B">Stage B-like</option><option value="D">Stage D-like</option><option value="E">Stage E-like</option><option value="random" disabled>Random test patient</option></select></div>
@@ -48,9 +62,9 @@
         </div></fieldset>
 
         <div class="actions"><button type="submit">Estimate stage <span>→</span></button><button type="button" class="ghost" id="reset">Reset</button></div>
-      </form>
+          </form>
 
-      <aside class="result-panel" aria-live="polite">
+          <aside class="result-panel" id="output" aria-live="polite">
         <p class="section-kicker">02 · MODEL OUTPUT</p>
         <div class="stage-orbit" id="stage-orbit"><div><span>STAGE</span><strong id="stage-letter">C</strong></div></div>
         <h2 id="stage-name">Classic shock pattern</h2>
@@ -59,12 +73,14 @@
         <div class="stage-track" aria-label="Stage scale"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><i id="track-marker"></i></div>
         <div class="signals"><h3>Input signals</h3><div id="signal-list"></div></div>
         <div class="model-note"><strong>How to read this</strong><p>The reduced linear model uses six inputs, encodes A–E as 0–4, and rounds the score to the nearest stage. It does not see treatment response, medication escalation, pH, or cardiac arrest—variables needed to clinically distinguish advanced stages.</p></div>
-      </aside>
-    </section>
+          </aside>
+        </section>
 
-    <section class="stage-key"><div><p class="section-kicker">STAGE REFERENCE</p><h2>SCAI continuum</h2></div><ol><li><b>A</b><span>At risk</span></li><li><b>B</b><span>Beginning</span></li><li><b>C</b><span>Classic</span></li><li><b>D</b><span>Deteriorating</span></li><li><b>E</b><span>Extremis</span></li></ol></section>
-  </main>
-  <footer><span>Synthetic model explorer · no data leaves your browser</span><span>Built for research workflow development</span></footer>
+        <section class="stage-key" id="continuum"><div><p class="section-kicker">STAGE REFERENCE</p><h2>SCAI continuum</h2></div><ol><li><b>A</b><span>At risk</span></li><li><b>B</b><span>Beginning</span></li><li><b>C</b><span>Classic</span></li><li><b>D</b><span>Deteriorating</span></li><li><b>E</b><span>Extremis</span></li></ol></section>
+      </main>
+      <footer id="privacy"><span>Synthetic model explorer · no data leaves your browser</span><span id="method">Built for research workflow development</span></footer>
+    </div>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
