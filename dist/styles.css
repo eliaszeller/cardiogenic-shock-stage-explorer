@@ -15,9 +15,9 @@ main{max-width:1380px;margin:auto;padding:60px 24px 80px}
 .eyebrow,.section-kicker{font-size:11px;letter-spacing:.19em;color:var(--cyan);font-weight:800;margin:0 0 14px}
 .intro h1{font-size:clamp(38px,5vw,67px);line-height:1.01;letter-spacing:-.055em;max-width:880px;margin:0}
 .lede{color:#aec0c4;font-size:17px;line-height:1.65;max-width:760px;margin:24px 0 0}
-.workspace{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:20px;align-items:stretch}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:20px;align-items:start}
 .form-panel,.result-panel{border:1px solid var(--line);background:rgba(12,32,38,.92);border-radius:20px}
-.form-panel{padding:28px;height:100%}
+.form-panel{padding:28px}
 .panel-heading{display:flex;justify-content:space-between;align-items:start;margin-bottom:10px}
 .heading-left{display:flex;align-items:center;gap:16px}
 .panel-heading h2,.stage-key h2{margin:0;font-size:23px;letter-spacing:-.03em}
@@ -42,7 +42,7 @@ button.ghost{background:transparent;color:var(--muted);border:1px solid var(--li
 button.random-patient{width:68px;height:68px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px;background:#0a1b20;border:1px solid #315159;color:var(--cyan);font-size:9px;line-height:1.08;text-align:center;flex:0 0 auto}
 button.random-patient span{margin:0;font-size:18px;line-height:1}
 button.random-patient:hover{border-color:var(--cyan);background:#102930}
-.result-panel{position:sticky;top:88px;padding:28px;overflow:hidden;align-self:start}
+.result-panel{position:sticky;top:88px;padding:28px;overflow:hidden}
 .result-panel:before{content:"";position:absolute;width:230px;height:230px;border-radius:50%;background:var(--stage);filter:blur(120px);opacity:.10;top:0;right:-60px;pointer-events:none}
 .stage-orbit{width:146px;height:146px;border-radius:50%;border:1px solid color-mix(in srgb,var(--stage) 55%,transparent);display:grid;place-items:center;margin:20px auto;position:relative;box-shadow:0 0 50px color-mix(in srgb,var(--stage) 12%,transparent)}
 .stage-orbit:after,.stage-orbit:before{content:"";position:absolute;border:1px solid color-mix(in srgb,var(--stage) 25%,transparent);border-radius:50%;inset:10px}
@@ -73,10 +73,28 @@ button.random-patient:hover{border-color:var(--cyan);background:#102930}
 .stage-key b{display:block;font-size:17px;color:var(--cyan)}
 .stage-key span{font-size:10px;color:var(--muted)}
 footer{border-top:1px solid var(--line);max-width:1380px;margin:auto;padding:25px 24px 40px;color:#68868d;font-size:11px;display:flex;justify-content:space-between}
+@media(min-width:1051px){
+.result-panel{padding:24px 24px 26px}
+.result-panel .section-kicker{margin-bottom:8px}
+.stage-orbit{width:124px;height:124px;margin:12px auto 16px}
+.stage-orbit:before{inset:8px}.stage-orbit:after{inset:16px}
+.stage-orbit strong{font-size:48px}
+.result-panel>h2{font-size:19px;margin:2px 0 5px}
+.result-panel>p{font-size:12px;line-height:1.4;margin-bottom:14px}
+.score-row{padding:12px 0 8px}
+.score-row strong{font-size:14px}
+.stage-track{padding-top:13px}
+.signals{margin-top:15px}
+.signals h3{margin:0 0 9px}
+#signal-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.signal{padding:9px;font-size:10px;gap:6px}
+.signal b{text-align:right;white-space:nowrap}
+.model-note{padding:13px 12px;margin-top:16px}
+.model-note p{font-size:10px;line-height:1.42;margin-top:5px}
+}
 @media(max-width:1050px){.intro{grid-template-columns:1fr;gap:28px}
 .intro-visual{justify-content:flex-end}
 .workspace{grid-template-columns:1fr}
-.form-panel{height:auto}
 .result-panel{position:relative;top:0}
 .stage-key{align-items:flex-start;gap:24px;flex-direction:column}
 .stage-key ol{width:100%;overflow:auto}
