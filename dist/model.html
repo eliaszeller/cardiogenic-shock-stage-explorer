@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Shock Stage Explorer model details"><title>Model Details · Shock Stage Explorer</title><link rel="stylesheet" href="styles.css"></head>
+<body><div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">CS</span><span>Shock Stage<br><small>Explorer</small></span></a>
+    <nav aria-label="Dashboard sections">
+      <p>CLINICAL TOOL</p>
+      <a href="index.html"><span>⌁</span>Assessment</a>
+      <a href="index.html#output"><span>◎</span>Model output</a>
+      <a href="definitions.html"><span>≡</span>Definitions</a>
+      <p>MODEL</p>
+      <a class="active" href="model.html"><span>◇</span>Model details</a>
+      <a href="#limitations"><span>◉</span>Limitations</a>
+    </nav>
+    <div class="sidebar-heart"><img src="heart-anatomy-transparent.png" alt="Anatomical illustration of a human heart"><span>Cardiogenic shock<br>research workflow</span></div>
+  </aside>
+  <div class="app-content">
+    <header class="topbar"><div class="crumb"><span>Dashboard</span><b>/</b> Model details</div><span class="model-badge"><i></i> Reduced linear model v2</span></header>
+    <main class="content-page">
+      <section class="page-hero"><div><p class="eyebrow">MODEL DOCUMENTATION</p><h1>How the model works</h1><p>Methodology, coefficients, simulated performance, and limitations for the reduced ordinal linear model.</p></div><img src="heart-anatomy-transparent.png" alt="" aria-hidden="true"></section>
+      <section class="metric-grid">
+        <article><span>REDUCED MODEL</span><strong>98.08%</strong><p>Exact accuracy on the synthetic held-out test set.</p></article>
+        <article><span>FULL MODEL</span><strong>98.52%</strong><p>Performance of the original 25-variable model.</p></article>
+        <article><span>TRADEOFF</span><strong>−0.44 pp</strong><p>Accuracy change after reducing entry from 25 fields to six.</p></article>
+      </section>
+      <section class="doc-grid">
+        <article class="doc-card"><p class="section-kicker">METHOD</p><h2>Ordinal linear scoring</h2><p>The model standardizes five numeric inputs, adds the applicable neurological category weight, and combines them with an intercept of <strong>1.7867</strong>. The continuous result is rounded to the nearest integer and clipped to 0–4, which maps to stages A–E.</p><div class="formula">score = 1.7867 + Σ(standardized input × β) + neurological β</div></article>
+        <article class="doc-card"><p class="section-kicker">DESIGN</p><h2>Why six inputs?</h2><p>MAP, cardiac index, lactate, SvO₂, urine output, and neurological assessment retained most of the predictive information in the synthetic dataset. Other variables were excluded when they added little independent signal or largely duplicated stronger predictors.</p></article>
+      </section>
+      <section class="table-card"><div class="card-heading"><div><p class="section-kicker">STANDARDIZED WEIGHTS</p><h2>Numeric coefficients</h2></div><p>A positive coefficient raises the calculated severity score; a negative coefficient lowers it.</p></div><div class="table-wrap"><table><thead><tr><th>Variable</th><th>Coefficient</th><th>Direction</th></tr></thead><tbody><tr><td>MAP</td><td>−0.2221</td><td>Higher values lower the score</td></tr><tr><td>Cardiac index</td><td>−0.3759</td><td>Higher values lower the score</td></tr><tr><td>Lactate</td><td>+0.1990</td><td>Higher values raise the score</td></tr><tr><td>SvO₂</td><td>−0.3084</td><td>Higher values lower the score</td></tr><tr><td>Urine output</td><td>−0.2071</td><td>Higher values lower the score</td></tr></tbody></table></div></section>
+      <section class="table-card"><div class="card-heading"><div><p class="section-kicker">REFERENCE: ALERT AND ORIENTED</p><h2>Neurological coefficients</h2></div><p>Categorical weights are added relative to the alert-and-oriented reference category.</p></div><div class="table-wrap"><table><thead><tr><th>Assessment</th><th>Coefficient</th></tr></thead><tbody><tr><td>Alert and oriented</td><td>0.0000</td></tr><tr><td>Confused</td><td>+0.3227</td></tr><tr><td>Lethargic</td><td>+0.4044</td></tr><tr><td>Obtunded</td><td>+0.5022</td></tr><tr><td>Unresponsive</td><td>+0.4751</td></tr></tbody></table></div></section>
+      <section class="notice-card" id="limitations"><p class="section-kicker">LIMITATIONS</p><h2>Interpret performance cautiously</h2><p>The reported accuracy measures agreement with labels in synthetic, literature-informed data—not diagnostic performance in real patients. The model does not evaluate treatment response, medication escalation, pH, mechanical support, cardiac arrest, or longitudinal deterioration. It is a research and workflow-development prototype rather than a validated clinical decision instrument.</p></section>
+    </main>
+    <footer><span>Synthetic model explorer · no data leaves your browser</span><span>Model documentation</span></footer>
+  </div>
+</div></body></html>

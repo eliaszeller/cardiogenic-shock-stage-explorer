@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Cardiogenic shock terminology and definitions"><title>Definitions · Shock Stage Explorer</title><link rel="stylesheet" href="styles.css"></head>
+<body><div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">CS</span><span>Shock Stage<br><small>Explorer</small></span></a>
+    <nav aria-label="Dashboard sections">
+      <p>CLINICAL TOOL</p>
+      <a href="index.html"><span>⌁</span>Assessment</a>
+      <a href="index.html#output"><span>◎</span>Model output</a>
+      <a class="active" href="definitions.html"><span>≡</span>Definitions</a>
+      <p>MODEL</p>
+      <a href="model.html"><span>◇</span>Model details</a>
+      <a href="#stages"><span>▤</span>SCAI stages</a>
+    </nav>
+    <div class="sidebar-heart"><img src="heart-anatomy-transparent.png" alt="Anatomical illustration of a human heart"><span>Cardiogenic shock<br>research workflow</span></div>
+  </aside>
+  <div class="app-content">
+    <header class="topbar"><div class="crumb"><span>Dashboard</span><b>/</b> Definitions</div><span class="model-badge"><i></i> Clinical glossary</span></header>
+    <main class="content-page">
+      <section class="page-hero"><div><p class="eyebrow">CLINICAL REFERENCE</p><h1>Definition index</h1><p>Plain-language definitions for the measurements, stages, and model terminology used throughout the explorer.</p></div><img src="heart-anatomy-transparent.png" alt="" aria-hidden="true"></section>
+      <section class="definition-index page-index">
+        <div class="definition-heading"><div><p class="section-kicker">INPUT VARIABLES</p><h2>Clinical measurements</h2></div><p>Each input is entered as a structured value for use by the model.</p></div>
+        <dl class="definition-grid">
+          <div><dt>MAP <span>mmHg</span></dt><dd>Mean arterial pressure: the average pressure driving blood through the systemic circulation during one cardiac cycle.</dd></div>
+          <div><dt>Cardiac index <span>L/min/m²</span></dt><dd>Cardiac output adjusted for body surface area, describing how effectively the heart supplies systemic blood flow.</dd></div>
+          <div><dt>Lactate <span>mmol/L</span></dt><dd>A metabolic marker that may rise when tissue oxygen delivery is inadequate or cellular metabolism is impaired.</dd></div>
+          <div><dt>SvO₂ <span>%</span></dt><dd>Mixed venous oxygen saturation: the percentage of oxygen remaining in venous blood after systemic tissue extraction.</dd></div>
+          <div><dt>Urine output <span>mL/kg/hr</span></dt><dd>Urine produced per kilogram of body weight per hour; reduced output can indicate impaired renal perfusion.</dd></div>
+          <div><dt>Neurological assessment</dt><dd>A categorized description of consciousness and responsiveness, ranging from alert and oriented to unresponsive.</dd></div>
+        </dl>
+      </section>
+      <section class="stage-page" id="stages"><div class="card-heading"><div><p class="section-kicker">STAGE REFERENCE</p><h2>SCAI-like continuum</h2></div><p>The explorer uses simplified A–E labels inspired by the SCAI framework.</p></div><div class="stage-detail-grid"><article><b>A</b><h3>At risk</h3><p>Risk factors for cardiogenic shock without current shock signs.</p></article><article><b>B</b><h3>Beginning</h3><p>Relative hypotension or tachycardia without clear hypoperfusion.</p></article><article><b>C</b><h3>Classic</h3><p>A hypoperfusion pattern consistent with shock requiring intervention.</p></article><article><b>D</b><h3>Deteriorating</h3><p>Worsening pattern or failure to stabilize after initial support.</p></article><article><b>E</b><h3>Extremis</h3><p>Severe circulatory collapse or an equivalent near-arrest context.</p></article></div></section>
+      <section class="definition-index page-index">
+        <div class="definition-heading"><div><p class="section-kicker">MODEL LANGUAGE</p><h2>Analytical terms</h2></div></div>
+        <dl class="definition-grid">
+          <div><dt>Raw ordinal score</dt><dd>The model's continuous numerical estimate before it is rounded and constrained to an A–E stage.</dd></div>
+          <div><dt>Coefficient (β)</dt><dd>A model weight describing the direction and relative contribution of an input to the calculated score.</dd></div>
+          <div><dt>Standardized variable</dt><dd>A numeric input transformed relative to its training-data mean and standard deviation before scoring.</dd></div>
+          <div><dt>Intercept</dt><dd>The starting value in the linear equation before the weighted input contributions are added.</dd></div>
+          <div><dt>Synthetic data</dt><dd>Artificially generated records designed to resemble plausible clinical patterns rather than observations from real patients.</dd></div>
+          <div><dt>SCAI-like stage</dt><dd>A simulated severity category inspired by the SCAI continuum; it is not a validated clinical classification.</dd></div>
+        </dl>
+      </section>
+      <section class="notice-card"><p class="section-kicker">DATA FORMAT</p><h2>Structured and unstructured data</h2><p>The five numeric measurements are structured data. Neurological assessment may begin as unstructured narrative documentation, but this dashboard converts it into a structured category so the model can process it consistently.</p></section>
+    </main>
+    <footer><span>Synthetic model explorer · no data leaves your browser</span><span>Clinical glossary</span></footer>
+  </div>
+</div></body></html>
